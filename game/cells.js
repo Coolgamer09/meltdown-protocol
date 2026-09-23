@@ -35,25 +35,25 @@ const reactorLevels = {
   dual: {
     cellCount: 2,
     uranium: 2,
-    heatPerTick: 2,
-    powerPerTick: 2,
-    life: 15
+    heatPerTick: 4,
+    powerPerTick: 4,
+    life: 20
   },
 
   triple: {
     cellCount: 3,
     uranium: 4,
-    heatPerTick: 3,
-    powerPerTick: 3,
-    life: 18
+    heatPerTick: 6,
+    powerPerTick: 6,
+    life: 30
   },
 
   quad: {
     cellCount: 4,
     uranium: 7,
-    heatPerTick: 4,
-    powerPerTick: 4,
-    life: 20
+    heatPerTick: 8,
+    powerPerTick: 8,
+    life: 50
   }
 };
 
