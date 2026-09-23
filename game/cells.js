@@ -63,6 +63,8 @@ const reactor = {
   power: 0,
   life: reactorLevels.single.life,
   uranium: reactorLevels.single.uranium,
+  heatPerTick: reactorLevels.single.heatPerTick,
+  powerPerTick: reactorLevels.single.powerPerTick,
 
   runTick() {
     if (this.life <= 0) {

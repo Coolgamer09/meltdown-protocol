@@ -14,6 +14,7 @@ const heatPipe = {
     const heatToMove = Math.min(this.transferRate, availableHeat);
 
     if (heatToMove <= 0) {
+      this.heat = 0;
       return 0;
     }
 
