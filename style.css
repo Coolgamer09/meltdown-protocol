@@ -1,0 +1,107 @@
+/* The whole page */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #101820;
+  color: #f2f5f7;
+  font-family: Arial, sans-serif;
+}
+
+/* The game area */
+.game {
+  width: min(90%, 500px);
+  padding: 30px;
+  text-align: center;
+  background: #1d2a35;
+  border: 2px solid #405565;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px #00000055;
+}
+
+h1 {
+  margin-bottom: 5px;
+  color: #ffb347;
+}
+
+.subtitle {
+  margin-top: 0;
+  color: #b8c7d1;
+}
+
+.reactor-panel {
+  margin: 25px 0;
+  padding: 20px;
+  background: #15212a;
+  border-radius: 8px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.temperature-bar {
+  height: 20px;
+  overflow: hidden;
+  background: #394955;
+  border-radius: 10px;
+}
+
+#temperature-fill {
+  width: 50%;
+  height: 100%;
+  background: #39c16c;
+  transition: width 0.2s, background 0.2s;
+}
+
+.status {
+  color: #76e39a;
+  font-weight: bold;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+button {
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 6px;
+  background: #ff9f43;
+  color: #17212b;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #ffc06e;
+}
+
+#cool-button {
+  background: #55b9e8;
+}
+
+#cool-button:hover {
+  background: #83d2f3;
+}
+
+#restart-button {
+  background: #76e39a;
+}
+
+.hidden {
+  display: none;
+}
+
+.instructions {
+  color: #b8c7d1;
+  line-height: 1.5;
+}
