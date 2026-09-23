@@ -2,7 +2,7 @@ const heatPipe = {
   id: "basic-heat-pipe",
   name: "Heat Pipe",
   type: "pipe",
-  transferRate: 3,
+  transferRate: 5,
   heat: 0,
 
   moveHeat(source, destination) {
