@@ -1,8 +1,9 @@
 const heatPipe = {
   id: "basic-heat-pipe",
-  name: "Heat Pipe",
+  name: "Heat Exchanger",
   type: "pipe",
   transferRate: 5,
+  heatTransferRatio: 0.95,
   maxHeat: 25,
   heat: 0,
   exploded: false,
@@ -17,7 +18,7 @@ const heatPipe = {
     const heatReceived = Math.min(this.transferRate, availableHeat, remainingCapacity);
 
     source.heat = availableHeat - heatReceived;
-    this.heat = this.heat + heatReceived;
+    this.heat += heatReceived;
 
     if (this.heat >= this.maxHeat) {
       this.explode();
@@ -31,9 +32,12 @@ const heatPipe = {
       return 0;
     }
 
-    const heatSent = Math.min(this.transferRate, this.heat);
+    // Exchangers discharge 95% of their stored heat each tick. The remaining
+    // 5% represents transfer loss and keeps future coolant destinations
+    // compatible with the same interface.
+    const heatSent = this.heat * this.heatTransferRatio;
 
-    this.heat = this.heat - heatSent;
+    this.heat -= heatSent;
     destination.heat = (Number(destination.heat) || 0) + heatSent;
 
     return heatSent;
@@ -55,6 +59,7 @@ const heatPipe = {
     return {
       received: heatReceived,
       sent: heatSent,
+      remaining: this.heat,
       exploded: false
     };
   },
