@@ -23,7 +23,9 @@ const reactor = {
   uranium: reactorLevels.single.uranium,
   heatPerTick: reactorLevels.single.heatPerTick,
   powerPerTick: reactorLevels.single.powerPerTick,
+  baseMaxHeat: MAX_REACTOR_HEAT,
   maxHeat: MAX_REACTOR_HEAT,
+  maxStoredPower: 100,
   lastEvent: "ready",
   exploded: false,
 
@@ -48,8 +50,13 @@ const reactor = {
     if (this.exploded || this.life <= 0) return false;
 
     this.heat += heat;
-    this.power += this.powerPerTick;
+    this.power = Math.min(this.maxStoredPower, this.power + this.powerPerTick);
     this.life = Math.max(0, this.life - 1);
+
+    // Heat plates attempt to remove heat before the reactor meltdown check.
+    if (typeof heatPlateBank !== "undefined") {
+      heatPlateBank.reduceHeat(this);
+    }
 
     if (this.heat >= this.maxHeat) {
       this.explode();
@@ -78,6 +85,7 @@ const reactor = {
     this.heatPerTick = reactorLevels.single.heatPerTick;
     this.powerPerTick = reactorLevels.single.powerPerTick;
     this.life = reactorLevels.single.life;
-    window.dispatchEvent(new CustomEvent("reactor:level-changed"));
+    this.maxHeat = this.baseMaxHeat;
+    this.power = 0;
   }
 };
