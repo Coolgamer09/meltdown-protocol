@@ -7,9 +7,54 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main class="placeholder">
-      <h1>Meltdown Protocol</h1>
-      <p>Game files are being rebuilt in a simpler way.</p>
+    <main class="game-shell">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">REACTOR MANAGEMENT SIMULATION</div>
+          <h1>Meltdown Protocol</h1>
+        </div>
+        <span id="status" class="status-badge status-normal">NORMAL</span>
+      </header>
+
+      <section class="dashboard">
+        <aside class="panel">
+          <h2>Reactor systems</h2>
+          <div class="metric"><span>Level</span><strong id="level-value">SINGLE</strong></div>
+          <div class="metric"><span>Life</span><strong id="life-value">15</strong></div>
+          <div class="metric"><span>Ticks</span><strong id="tick-value">0</strong></div>
+          <label class="board-label" for="level-select">Reactor size</label>
+          <select id="level-select">
+            <option value="single">Single</option>
+            <option value="dual">Dual</option>
+            <option value="triple">Triple</option>
+            <option value="quad">Quad</option>
+          </select>
+          <button class="control-button" id="run-button">Start reactor</button>
+          <button class="control-button" id="reset-button">Reset reactor</button>
+        </aside>
+
+        <section class="reactor-board" id="reactor-board">
+          <div class="board-label">PRIMARY REACTOR CORE</div>
+          <div class="reactor-core" id="core">
+            <div class="core-ring"><span id="heat-value">0 / 100</span></div>
+          </div>
+          <div class="meter"><span id="heat-meter"></span></div>
+          <div class="metric"><span>Stored power</span><strong id="power-value">0 / 100</strong></div>
+          <div class="metric"><span>Heat this tick</span><strong id="production-value">1</strong></div>
+          <div class="pipe-route"><span class="pipe-node">CORE</span><span class="pipe-line"><span></span></span><span class="pipe-node">VENT</span></div>
+        </section>
+
+        <aside class="panel">
+          <h2>Components</h2>
+          <div class="system-card"><span>Heat plates</span><strong id="plates-value">0</strong></div>
+          <button class="control-button" id="plate-button">Install heat plate</button>
+          <div class="system-card"><span>Capacitors</span><strong id="capacitor-value">0</strong></div>
+          <button class="control-button" id="capacitor-button">Install capacitor</button>
+          <div class="system-card"><span>Inlet heat</span><strong id="inlet-value">0</strong></div>
+          <div class="system-card"><span>Outlet heat</span><strong id="outlet-value">0</strong></div>
+        </aside>
+      </section>
+      <footer>Keep heat below the limit. Research systems and thermal routing coming online.</footer>
     </main>
 
     <script src="game/reactor.js"></script>
