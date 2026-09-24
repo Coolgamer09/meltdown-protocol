@@ -19,17 +19,17 @@
       <section class="dashboard">
         <aside class="panel">
           <h2>Reactor systems</h2>
-          <div class="metric"><span>Level</span><strong id="level-value">SINGLE</strong></div>
-          <div class="metric"><span>Life</span><strong id="life-value">15</strong></div>
-          <div class="metric"><span>Ticks</span><strong id="tick-value">0</strong></div>
-          <label class="board-label" for="level-select">Reactor size</label>
+          <div class="metric"><span>Configuration</span><strong id="level-value">SINGLE</strong></div>
+          <div class="metric"><span>Reactor life</span><strong id="life-value">15</strong></div>
+          <div class="metric"><span>Simulation ticks</span><strong id="tick-value">0</strong></div>
+          <label class="board-label" for="level-select">Core configuration</label>
           <select id="level-select">
-            <option value="single">Single</option>
-            <option value="dual">Dual</option>
-            <option value="triple">Triple</option>
-            <option value="quad">Quad</option>
+            <option value="single">Single core</option>
+            <option value="dual">Dual core</option>
+            <option value="triple">Triple core</option>
+            <option value="quad">Quad core</option>
           </select>
-          <button class="control-button" id="run-button">Start reactor</button>
+          <button class="control-button" id="pause-button">Pause simulation</button>
           <button class="control-button" id="reset-button">Reset reactor</button>
         </aside>
 
@@ -40,21 +40,22 @@
           </div>
           <div class="meter"><span id="heat-meter"></span></div>
           <div class="metric"><span>Stored power</span><strong id="power-value">0 / 100</strong></div>
-          <div class="metric"><span>Heat this tick</span><strong id="production-value">1</strong></div>
-          <div class="pipe-route"><span class="pipe-node">CORE</span><span class="pipe-line"><span></span></span><span class="pipe-node">VENT</span></div>
+          <div class="metric"><span>Heat production</span><strong id="production-value">1 / tick</strong></div>
+          <div class="pipe-route"><span class="pipe-node">CORE</span><span class="pipe-line"><span></span></span><span class="pipe-node">OUTLET</span></div>
+          <div class="vent-unit"><span class="vent-icon">♨</span><strong id="event-value">System ready</strong><small>Automatic simulation active</small></div>
         </section>
 
         <aside class="panel">
-          <h2>Components</h2>
+          <h2>Installed systems</h2>
           <div class="system-card"><span>Heat plates</span><strong id="plates-value">0</strong></div>
           <button class="control-button" id="plate-button">Install heat plate</button>
           <div class="system-card"><span>Capacitors</span><strong id="capacitor-value">0</strong></div>
           <button class="control-button" id="capacitor-button">Install capacitor</button>
-          <div class="system-card"><span>Inlet heat</span><strong id="inlet-value">0</strong></div>
-          <div class="system-card"><span>Outlet heat</span><strong id="outlet-value">0</strong></div>
+          <div class="system-card"><span>Inlet buffer</span><strong id="inlet-value">0</strong></div>
+          <div class="system-card"><span>Outlet buffer</span><strong id="outlet-value">0</strong></div>
         </aside>
       </section>
-      <footer>Keep heat below the limit. Research systems and thermal routing coming online.</footer>
+      <footer>Manage the reactor network. It generates heat and power automatically; upgrades and routing keep it alive.</footer>
     </main>
 
     <script src="game/reactor.js"></script>

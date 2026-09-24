@@ -7,22 +7,16 @@ const inlet = {
   position: { x: 0, y: 0 },
 
   receiveHeat(source) {
-    if (!source) {
-      return 0;
-    }
-
-    const availableHeat = Math.max(0, Number(source.heat) || 0);
-    const received = Math.min(this.transferRate, availableHeat);
+    if (!source) return 0;
+    const available = Math.max(0, Number(source.heat) || 0);
+    const received = Math.min(this.transferRate, available);
     source.heat -= received;
     this.heat += received;
     return received;
   },
 
   injectIntoReactor(target) {
-    if (!target || this.heat <= 0) {
-      return 0;
-    }
-
+    if (!target || this.heat <= 0) return 0;
     const injected = Math.min(this.transferRate, this.heat);
     this.heat -= injected;
     target.heat += injected;
@@ -39,10 +33,7 @@ const outlet = {
   position: { x: 0, y: 0 },
 
   extractFromReactor(source) {
-    if (!source || source.heat <= 0) {
-      return 0;
-    }
-
+    if (!source || source.heat <= 0) return 0;
     const extracted = Math.min(this.transferRate, source.heat);
     source.heat -= extracted;
     this.heat += extracted;
@@ -50,10 +41,7 @@ const outlet = {
   },
 
   sendHeat(destination) {
-    if (!destination || this.heat <= 0) {
-      return 0;
-    }
-
+    if (!destination || this.heat <= 0) return 0;
     const sent = Math.min(this.transferRate, this.heat);
     this.heat -= sent;
     destination.heat = (Number(destination.heat) || 0) + sent;
