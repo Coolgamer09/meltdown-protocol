@@ -1,12 +1,13 @@
-const heatPipe = {
-  id: "basic-heat-pipe",
+const heatExchanger = {
+  id: "basic-heat-exchanger",
   name: "Heat Exchanger",
-  type: "pipe",
+  type: "heat-exchanger",
   transferRate: 5,
   heatTransferRatio: 0.95,
   maxHeat: 25,
   heat: 0,
   exploded: false,
+  position: { x: 0, y: 0 },
 
   receiveHeat(source) {
     if (this.exploded || !source) {
@@ -14,10 +15,10 @@ const heatPipe = {
     }
 
     const availableHeat = Math.max(0, Number(source.heat) || 0);
-    const remainingCapacity = this.maxHeat - this.heat;
+    const remainingCapacity = Math.max(0, this.maxHeat - this.heat);
     const heatReceived = Math.min(this.transferRate, availableHeat, remainingCapacity);
 
-    source.heat = availableHeat - heatReceived;
+    source.heat -= heatReceived;
     this.heat += heatReceived;
 
     if (this.heat >= this.maxHeat) {
@@ -32,36 +33,21 @@ const heatPipe = {
       return 0;
     }
 
-    // Exchangers discharge 95% of their stored heat each tick. The remaining
-    // 5% represents transfer loss and keeps future coolant destinations
-    // compatible with the same interface.
     const heatSent = this.heat * this.heatTransferRatio;
-
     this.heat -= heatSent;
     destination.heat = (Number(destination.heat) || 0) + heatSent;
-
     return heatSent;
   },
 
   moveHeat(source, destination) {
-    const heatReceived = this.receiveHeat(source);
+    const received = this.receiveHeat(source);
 
     if (this.exploded) {
-      return {
-        received: heatReceived,
-        sent: 0,
-        exploded: true
-      };
+      return { received, sent: 0, remaining: 0, exploded: true };
     }
 
-    const heatSent = this.sendHeat(destination);
-
-    return {
-      received: heatReceived,
-      sent: heatSent,
-      remaining: this.heat,
-      exploded: false
-    };
+    const sent = this.sendHeat(destination);
+    return { received, sent, remaining: this.heat, exploded: false };
   },
 
   explode() {
@@ -75,17 +61,33 @@ const heatPipe = {
   }
 };
 
-function createHeatPipe(transferRate = 3, maxHeat = 25) {
+function createHeatExchanger(transferRate = 3, maxHeat = 25, position = { x: 0, y: 0 }) {
   return {
-    ...heatPipe,
-    id: `heat-pipe-${Date.now()}`,
+    ...heatExchanger,
+    id: `heat-exchanger-${Date.now()}`,
     transferRate,
     maxHeat,
+    position,
     heat: 0,
     exploded: false
   };
 }
 
-function moveHeatBetween(source, destination, pipe = heatPipe) {
-  return pipe.moveHeat(source, destination);
+function isCardinallyAdjacent(first, second) {
+  if (!first?.position || !second?.position) {
+    return false;
+  }
+
+  const horizontalDistance = Math.abs(first.position.x - second.position.x);
+  const verticalDistance = Math.abs(first.position.y - second.position.y);
+
+  return horizontalDistance + verticalDistance === 1;
+}
+
+function moveHeatBetween(source, destination, exchanger = heatExchanger) {
+  if (!isCardinallyAdjacent(source, exchanger) || !isCardinallyAdjacent(exchanger, destination)) {
+    return { received: 0, sent: 0, remaining: exchanger.heat, exploded: exchanger.exploded, connected: false };
+  }
+
+  return exchanger.moveHeat(source, destination);
 }
