@@ -39,17 +39,6 @@ const heatExchanger = {
     return heatSent;
   },
 
-  moveHeat(source, destination) {
-    const received = this.receiveHeat(source);
-
-    if (this.exploded) {
-      return { received, sent: 0, remaining: 0, exploded: true };
-    }
-
-    const sent = this.sendHeat(destination);
-    return { received, sent, remaining: this.heat, exploded: false };
-  },
-
   explode() {
     this.exploded = true;
     this.heat = 0;
@@ -84,10 +73,14 @@ function isCardinallyAdjacent(first, second) {
   return horizontalDistance + verticalDistance === 1;
 }
 
-function moveHeatBetween(source, destination, exchanger = heatExchanger) {
-  if (!isCardinallyAdjacent(source, exchanger) || !isCardinallyAdjacent(exchanger, destination)) {
-    return { received: 0, sent: 0, remaining: exchanger.heat, exploded: exchanger.exploded, connected: false };
+function transferFromExchanger(exchanger, destination) {
+  if (!isCardinallyAdjacent(exchanger, destination)) {
+    return { sent: 0, connected: false, remaining: exchanger.heat };
   }
 
-  return exchanger.moveHeat(source, destination);
+  return {
+    sent: exchanger.sendHeat(destination),
+    connected: true,
+    remaining: exchanger.heat
+  };
 }
