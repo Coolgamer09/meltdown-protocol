@@ -2,7 +2,7 @@ const coolant = {
   id: "basic-coolant-tank",
   name: "Coolant Buffer",
   type: "coolant",
-  maxHeat: 100,
+  maxHeat: 500,
   heat: 0,
   transferRate: 10,
   position: { x: 2, y: 0 },
@@ -32,8 +32,8 @@ const coolant = {
     return heatSent;
   },
 
-  // The coolant remains a buffer: it holds heat instead of deleting it.
-  // It only releases heat when a nearby destination is explicitly provided.
+  // Coolant is a non-explosive buffer. Once full, it simply stops accepting
+  // additional heat until some stored heat is sent to a connected destination.
   balanceWith(source, destination) {
     const received = this.receiveHeat(source);
     const sent = this.sendHeat(destination);
@@ -51,7 +51,7 @@ const coolant = {
   }
 };
 
-function createCoolant(maxHeat = 100, transferRate = 10, position = { x: 0, y: 0 }) {
+function createCoolant(maxHeat = 500, transferRate = 10, position = { x: 0, y: 0 }) {
   return {
     ...coolant,
     id: `coolant-${Date.now()}`,
